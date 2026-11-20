@@ -1,0 +1,287 @@
+@import "tailwindcss";
+
+/* ---------- tokens: dark is default; html[data-theme=light] overrides; any element can force a theme ---------- */
+:root,
+[data-theme="dark"] {
+  --bg: #0a0910;
+  --surface: #121118;
+  --surface-2: #1a1922;
+  --border: #26242f;
+  --text: #ecebf3;
+  --muted: #8d8a9b;
+  --accent: #a78bfa;
+  --accent-btn: #a78bfa;
+  --accent-btn-fg: #0a0910;
+  --danger: #f87171;
+  --success: #4ade80;
+  --warn: #fbbf24;
+  --shadow: 0 1px 0 rgb(255 255 255 / 0.03) inset, 0 8px 24px rgb(0 0 0 / 0.35);
+  color-scheme: dark;
+}
+html[data-theme="light"],
+[data-theme="light"] {
+  --bg: #f7f6fb;
+  --surface: #ffffff;
+  --surface-2: #f1eff7;
+  --border: #e3e0ec;
+  --text: #16141e;
+  --muted: #6a6778;
+  --accent: #7c3aed;
+  --accent-btn: #7c3aed;
+  --accent-btn-fg: #ffffff;
+  --danger: #dc2626;
+  --success: #16a34a;
+  --warn: #b45309;
+  --shadow: 0 1px 2px rgb(22 20 30 / 0.06), 0 8px 24px rgb(22 20 30 / 0.06);
+  color-scheme: light;
+}
+[data-theme] {
+  color: var(--text);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--border);
+  --color-fg: var(--text);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-danger: var(--danger);
+  --color-success: var(--success);
+  --color-warn: var(--warn);
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+/* ---------- base ---------- */
+/* Background on html only: a body background would paint over the -z-10 animated backdrop. */
+html {
+  background: var(--bg);
+}
+html,
+body {
+  color: var(--text);
+  overflow-x: clip; /* safety net only; the resize sweep checks with this disabled */
+}
+body {
+  @apply font-sans antialiased;
+}
+::selection {
+  background: color-mix(in oklab, var(--accent) 35%, transparent);
+}
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ---------- components ---------- */
+@layer components {
+  .btn,
+  .btn-ghost,
+  .btn-danger {
+    @apply inline-flex shrink-0 items-center justify-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium whitespace-nowrap transition disabled:pointer-events-none disabled:opacity-50;
+  }
+  .btn {
+    background: var(--accent-btn);
+    color: var(--accent-btn-fg);
+    box-shadow: 0 0 0 0 color-mix(in oklab, var(--accent) 0%, transparent);
+  }
+  .btn:hover {
+    box-shadow: 0 0 0 4px color-mix(in oklab, var(--accent) 22%, transparent);
+  }
+  .btn:active,
+  .btn-ghost:active,
+  .btn-danger:active {
+    transform: scale(0.97);
+  }
+  .btn-ghost {
+    @apply border border-line bg-surface text-fg hover:bg-surface-2;
+  }
+  .btn-danger {
+    background: var(--danger);
+    color: #fff;
+  }
+  .input {
+    @apply w-full min-w-0 rounded-lg border border-line bg-surface-2 px-3 py-1.5 text-sm text-fg transition placeholder:text-muted;
+  }
+  .input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent) 22%, transparent);
+  }
+  .label {
+    @apply mb-1 block text-xs font-medium tracking-wide text-muted uppercase;
+  }
+  .card {
+    @apply rounded-2xl border border-line bg-surface p-4;
+    box-shadow: var(--shadow);
+  }
+  .table {
+    @apply w-full text-left text-sm;
+  }
+  .table th {
+    @apply border-b border-line px-3 py-2.5 text-xs font-medium tracking-wide whitespace-nowrap text-muted uppercase;
+  }
+  .table td {
+    @apply border-b border-line px-3 py-2.5;
+  }
+  .table tbody tr {
+    @apply transition-colors hover:bg-surface-2;
+  }
+  /* tinted chip; set --c to any token */
+  .chip {
+    @apply inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium whitespace-nowrap;
+    color: var(--c, var(--muted));
+    background: color-mix(in oklab, var(--c, var(--muted)) 15%, transparent);
+  }
+}
+
+/* ---------- glow card (Magic Bento edge light + Spotlight Card), driven by --x/--y from GlowCard ---------- */
+.glow-card {
+  position: relative;
+  isolation: isolate;
+}
+.glow-card::before,
+.glow-card::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: var(--glow, 0);
+  transition: opacity 0.35s ease;
+}
+.glow-card::before {
+  padding: 1px;
+  background: radial-gradient(260px circle at var(--x, 50%) var(--y, 50%), var(--accent), transparent 65%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  z-index: 1;
+}
+.glow-card::after {
+  background: radial-gradient(420px circle at var(--x, 50%) var(--y, 50%), color-mix(in oklab, var(--accent) 9%, transparent), transparent 60%);
+  z-index: -1;
+}
+
+/* ---------- motion ---------- */
+@keyframes blur-in {
+  from { opacity: 0; filter: blur(10px); transform: translateY(-0.3em); }
+  to { opacity: 1; filter: blur(0); transform: none; }
+}
+.blur-word {
+  display: inline-block;
+  animation: blur-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes rise {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+.rise {
+  animation: rise 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes grow-x {
+  from { transform: scaleX(0); }
+}
+.bar {
+  transform-origin: left;
+  animation: grow-x 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes shimmer {
+  to { background-position: -200% 0; }
+}
+.skeleton {
+  border-radius: 0.75rem;
+  background: linear-gradient(90deg, var(--surface-2) 25%, color-mix(in oklab, var(--surface-2), var(--text) 6%) 50%, var(--surface-2) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+
+/* ---------- splash ---------- */
+#splash {
+  transition: opacity 0.5s ease, visibility 0.5s;
+}
+#splash[data-done] {
+  opacity: 0;
+  visibility: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---------- dialogs ---------- */
+dialog {
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+dialog::backdrop {
+  background: rgb(5 4 10 / 0.6);
+  backdrop-filter: blur(4px);
+}
+dialog[open] {
+  animation: rise 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* theme toggle icons */
+html[data-theme="light"] .only-dark,
+html:not([data-theme="light"]) .only-light {
+  display: none;
+}
+
+/* ---------- tables become stacked cards on phones (same markup, no duplicate DOM) ---------- */
+@media (max-width: 767px) {
+  .table-stack thead {
+    display: none;
+  }
+  .table-stack,
+  .table-stack tbody,
+  .table-stack tfoot {
+    display: block;
+  }
+  .table-stack tr {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem 1rem;
+    padding: 0.875rem 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .table-stack td {
+    border: 0;
+    padding: 0;
+    min-width: 0;
+    text-align: left !important;
+    white-space: normal; /* unlayered, so it beats whitespace-nowrap utilities in stacked cards */
+    overflow-wrap: anywhere;
+  }
+  .table-stack td[data-label]::before {
+    content: attr(data-label);
+    display: block;
+    margin-bottom: 0.125rem;
+    font-size: 0.68rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .table-stack td.stack-full,
+  .table-stack td:empty {
+    grid-column: 1 / -1;
+  }
+  .table-stack td:empty {
+    display: none;
+  }
+}
+
+/* CardNav sizes logo svgs with width:auto, which collapses an inline icon to 0 width */
+.card-nav .card-nav__logo svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
