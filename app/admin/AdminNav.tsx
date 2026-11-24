@@ -1,4 +1,5 @@
 "use client";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -17,14 +18,22 @@ const LINKS: [string, string, keyof typeof ICONS][] = [
 
 export function AdminNav() {
   const path = usePathname();
+  const [activeHref, setActiveHref] = useState(path);
+
+  useEffect(() => {
+    setActiveHref(path);
+  }, [path]);
+
   return (
     <nav className="grid grid-cols-4 gap-1 px-2 pb-2 md:flex md:flex-col md:px-3 md:pb-3">
       {LINKS.map(([href, label, icon]) => {
-        const active = href === "/admin" ? path === href : path.startsWith(href);
+        const active = href === "/admin" ? activeHref === href : activeHref.startsWith(href);
         return (
           <Link
             key={href}
             href={href}
+            prefetch={true}
+            onClick={() => setActiveHref(href)}
             aria-current={active ? "page" : undefined}
             className={`flex min-w-0 flex-col items-center gap-1 rounded-lg px-1 py-1.5 text-[11px] transition-colors md:flex-row md:gap-2.5 md:px-3 md:py-2 md:text-sm ${
               active ? "bg-surface-2 text-fg md:shadow-[inset_2px_0_0_var(--accent)]" : "text-muted hover:bg-surface-2 hover:text-fg"

@@ -8,7 +8,7 @@ import StarBorder from "@/components/reactbits/StarBorder";
 import { ParticleField } from "../ui/ParticleField";
 import { PublicNav } from "../ui/PublicNav";
 
-const ACCEPT = ".csv,.xlsx,.xls,.pdf,.png,.jpg,.jpeg,.webp";
+const ACCEPT = ".csv,.xlsx,.xls,.pdf,.doc,.docx,.png,.jpg,.jpeg,.webp";
 
 export default function RequestPage() {
   const [state, action, pending] = useActionState(submitRequest, null);
@@ -57,7 +57,7 @@ export default function RequestPage() {
                       id="file" name="file" type="file" accept={ACCEPT}
                       className="block w-full min-w-0 text-sm text-muted file:mr-3 file:rounded-lg file:border-0 file:bg-surface-2 file:px-3 file:py-1.5 file:text-sm file:text-fg hover:file:brightness-125"
                     />
-                    <p className="mt-1 text-xs text-muted">CSV, Excel, PDF or image, up to 5MB.</p>
+                    <p className="mt-1 text-xs text-muted">CSV, Excel, Word Doc, PDF or image, up to 5MB.</p>
                   </div>
                   {state?.error && <p role="alert" className="text-sm text-danger">{state.error}</p>}
                   <StarBorder type="submit" disabled={pending} color="#c4b5fd" trailColor="#7c3aed" radius={10} glow={0.7} backgroundColor="#a78bfa" textColor="#0a0910" className="w-full py-2.5">{pending ? "Sending…" : "Send request"}</StarBorder>

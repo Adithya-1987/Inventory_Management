@@ -6,7 +6,7 @@ import { ParticleField } from "./ui/ParticleField";
 import { PublicNav } from "./ui/PublicNav";
 
 const STEPS = [
-  ["Tell us what you need", "Type a list or attach a CSV, Excel sheet, PDF or photo."],
+  ["Tell us what you need", "Type a list or attach a CSV, Excel sheet, Word doc, PDF or photo."],
   ["We check stock", "Every request lands with us straight away."],
   ["We get back to you", "Through your mentor, with what we can get and the price."],
 ];

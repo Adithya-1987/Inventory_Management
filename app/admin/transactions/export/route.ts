@@ -1,6 +1,8 @@
 import { requireAdmin } from "@/lib/auth";
 import { getComponents, getTransactions } from "@/lib/data";
 
+export const dynamic = "force-dynamic";
+
 // Quote every field; neutralise leading =+-@ so spreadsheets don't run notes as formulas.
 const cell = (v: unknown) => {
   const s = String(v ?? "");

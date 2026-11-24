@@ -1,6 +1,8 @@
 import { requireAdmin } from "@/lib/auth";
 import { getRequestFile } from "@/lib/data";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(_: Request, { params }: { params: Promise<{ id: string }> }) {
   await requireAdmin();
   const file = await getRequestFile((await params).id);

@@ -23,7 +23,7 @@ function Kpi({ label, children, foot }: { label: string; children: React.ReactNo
 }
 
 export default async function Dashboard() {
-  const [stats, recent, components, requests] = await Promise.all([getStats(), getTransactions(), getComponents(), getRequests()]);
+  const [stats, recent, components, requests] = await Promise.all([getStats(), getTransactions({}, 10), getComponents(), getRequests()]);
   const name = new Map(components.map((c) => [c.id, c.name]));
   const newRequests = requests.filter((r) => r.status === "new").length;
   const out = stats.lowStock.filter((c) => c.quantity === 0).length;
@@ -47,7 +47,7 @@ export default async function Dashboard() {
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <NotifyBell count={newRequests} />
-          <Link href="/admin/inventory" className="btn">+ Record sale</Link>
+          <Link href="/admin/inventory" prefetch={true} className="btn">+ Record sale</Link>
         </div>
       </header>
 
@@ -64,7 +64,7 @@ export default async function Dashboard() {
         <Kpi label="Low stock" foot={<>{out > 0 ? <Chip tone="var(--danger)">{out} out of stock</Chip> : <Chip tone="var(--muted)">none at 0</Chip>} under {LOW_STOCK}</>}>
           <span className={stats.lowStock.length ? "text-warn" : ""}><CountUp value={stats.lowStock.length} /></span>
         </Kpi>
-        <Kpi label="New requests" foot={<Link href="/admin/requests" className="underline hover:text-fg">Open requests →</Link>}>
+        <Kpi label="New requests" foot={<Link href="/admin/requests" prefetch={true} className="underline hover:text-fg">Open requests →</Link>}>
           <CountUp value={newRequests} />
         </Kpi>
       </section>
@@ -98,7 +98,7 @@ export default async function Dashboard() {
         <GlowCard className="min-w-0 lg:col-span-2">
           <div className="mb-3 flex items-center justify-between">
             <h2 className="font-semibold">Low stock</h2>
-            <Link href="/admin/inventory" className="text-xs text-muted underline hover:text-fg">Inventory →</Link>
+            <Link href="/admin/inventory" prefetch={true} className="text-xs text-muted underline hover:text-fg">Inventory →</Link>
           </div>
           {stats.lowStock.length === 0 ? (
             <p className="text-sm text-muted">All good.</p>
@@ -119,7 +119,7 @@ export default async function Dashboard() {
         <GlowCard className="min-w-0 lg:col-span-3">
           <div className="mb-3 flex items-center justify-between">
             <h2 className="font-semibold">Recent activity</h2>
-            <Link href="/admin/transactions" className="text-xs text-muted underline hover:text-fg">All transactions →</Link>
+            <Link href="/admin/transactions" prefetch={true} className="text-xs text-muted underline hover:text-fg">All transactions →</Link>
           </div>
           <ActivityList items={activity} />
         </GlowCard>

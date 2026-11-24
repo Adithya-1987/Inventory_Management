@@ -7,7 +7,16 @@ const nextConfig: NextConfig = {
   reactStrictMode: false,
   devIndicators: { position: "bottom-right" }, // default bottom-left covers the sidebar's Log out button
   // Request form uploads files up to 5MB through a server action (default limit is 1MB).
-  experimental: { serverActions: { bodySizeLimit: "6mb" } },
+  experimental: {
+    serverActions: { bodySizeLimit: "6mb" },
+    optimizePackageImports: ["@hugeicons/core-free-icons", "@hugeicons/react", "motion"],
+  },
+  webpack: (config, { dev }) => {
+    if (dev) {
+      config.cache = { type: "memory" };
+    }
+    return config;
+  },
 };
 
 export default nextConfig;

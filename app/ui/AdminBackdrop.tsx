@@ -41,6 +41,7 @@ export function AdminBackdrop() {
           cursorShadow={false}
           clickPulse={false}
           lightMode={light}
+          maxDevicePixelRatio={1.25}
         />
       </div>
     </div>
