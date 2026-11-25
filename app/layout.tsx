@@ -7,7 +7,7 @@ const sans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const mono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Partsbin",
+  title: "Inventory",
   description: "Component inventory, transactions and requests",
 };
 export const viewport: Viewport = { themeColor: "#0a0910" };

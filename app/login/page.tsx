@@ -14,7 +14,7 @@ export default async function LoginPage() {
     <div data-theme="dark" className="relative grid min-h-dvh place-items-center overflow-x-clip px-4 py-10">
       <Backdrop />
       <div className="rise w-full max-w-sm">
-        <Link href="/" className="mb-6 flex items-center justify-center gap-2 font-semibold"><Logo className="size-7 text-accent" /> Partsbin</Link>
+        <Link href="/" className="mb-6 flex items-center justify-center gap-2 font-semibold"><Logo className="size-7 text-accent" /> Inventory</Link>
         <GlowCard className="bg-surface/80 p-6 backdrop-blur">
           <h1 className="text-xl font-semibold">Admin login</h1>
           <LoginForm />

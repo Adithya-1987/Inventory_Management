@@ -32,8 +32,8 @@ export function PublicNav() {
   return (
     <div className="mx-auto w-full max-w-5xl px-4 pt-4">
       <CardNav
-        logo={<span className="flex items-center gap-2 text-base font-semibold"><Logo className="size-6 text-accent" /> Partsbin</span>}
-        logoAlt="Partsbin home"
+        logo={<span className="flex items-center gap-2 text-base font-semibold"><Logo className="size-6 text-accent" /> Inventory</span>}
+        logoAlt="Inventory home"
         logoHref="/"
         items={ITEMS}
         cta={{ label: "Request parts", href: "/request" }}

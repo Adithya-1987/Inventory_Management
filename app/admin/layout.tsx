@@ -18,7 +18,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       <aside className="sticky top-0 z-20 border-b border-line bg-bg/80 backdrop-blur md:h-dvh md:border-r md:border-b-0">
         <div className="flex items-center justify-between px-4 py-3 md:py-5">
           <Link href="/admin" className="flex items-center gap-2 font-semibold">
-            <Logo className="size-6 text-accent" /> Partsbin
+            <Logo className="size-6 text-accent" /> Inventory
           </Link>
           <ThemeToggle />
         </div>
